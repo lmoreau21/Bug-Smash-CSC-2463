@@ -1,14 +1,22 @@
 let spritesheet;
 let spritedata;
-let score = 0;
-let totalClicks = 0;
+
 let timer = 30;
+let nextChange = timer;
 let animation = [];
 let death = [];
 let bugs = [];
-let gameOver = false;
+let gameOver = true;
+
+let gameDelay = 0;
 let bugCount = 0;
-let speed = random(0.1, 0.4);
+
+let score = 0;
+let totalClicks = 0;
+let highScore = score;
+let highAccuracy = 0;
+
+let gamesPlayed = 0;
 
 function preload() {
   spritesheet = loadImage('bug.png');
@@ -31,28 +39,50 @@ function setup() {
 }
 
 function draw() {
-  background(200)
-  if (timer == 0) {
+  if(!gameOver){
+    background(200)
+    if (timer == 0) {
+      gameOver=true;
+      gamesPlayed++;
+    }
+    textSize(24);
+    text('Score: '+score, width-textWidth('Score: '+score)-10, 20);
+    text('Time: '+timer, 10, 20);
+    for (let bug of bugs) {
+      bug.show();
+      bug.walk();
+    }
+    if (round((millis()-gameDelay)/1000) == 31-timer && timer>0) {
+      timer--;
+      bugs[bugCount] = new Sprite(animation, random(20, height-33), random(.2, .6)+score*0.08, random()<.5, death);
+      bugCount++;
+    }
+  }else{
+    background(200)
+    gameDelay = millis();
+    timer = 30;
+    bugs = [];
+    bugCount = 0;
+    textSize(20);
+    fill("red")
+    if(score>=highScore && gamesPlayed != 0){
+      highScore = score;
+      text("New High Score!", width/8, height/2);
+    }
+    if(int(score/totalClicks*100)>=highAccuracy && gamesPlayed!=0){
+      highAccuracy = int(score/totalClicks*100);
+      text("New Highest Accuracy!",width/8, height/2+40)
+    }
+    fill("black")
+    if(gamesPlayed!=0){
+      textSize(50);
+      text("Game Over", width/2-textWidth("Game Over")/2, 60)
+    }
     textSize(40);
-    text("GAME OVER", width/2 - textWidth("GAME OVER")/2, height/2);
+    text("Press a key to start", width/2 - textWidth("Press a key to start")/2, height/3);
     textSize(30);
-    text("Accuracy: "+int((score/totalClicks)*100)+"%", width/2 - textWidth("Accuracy: 98%")/2, height/2+50);
-    gameOver=true;
-  }
-  textSize(24);
-  text('Score: '+score, width-textWidth('Score: '+score)-10, 20);
-  text('Time: '+timer, 10, 20);
-  if (frameCount % 30 == 0 && timer > 0) {
-    bugs[bugCount] = new Sprite(animation, random(15, height-33), random(.5, 1)+score*0.05, random()<.5, death);
-    bugCount++;
-  }
-  for (let bug of bugs) {
-    bug.show();
-    bug.walk();
-  }
-  
-  if (frameCount % 60 == 0 && timer > 0) {
-    timer--;
+    text("Score: "+ score+"\tHighest Score: "+highScore, width/2 - textWidth("Score: 98\tHighest Score: 90")/2, height/2);
+    text("Accuracy: "+ int((score/totalClicks)*100)+"%"+"\tHighest Accuracy: "+highAccuracy+"%", width/2 - textWidth("Accuracy: 98%\tHighest Accuracy: 98%")/2, height/2+40);
   }
 }
 
@@ -60,5 +90,13 @@ function mouseClicked() {
   totalClicks++;
   for (let bug of bugs) {
     bug.deathCheck();
+  }
+}
+
+function keyPressed(){
+  if(gameOver){
+    gameOver=false;
+    score = 0;
+    totalClicks = 0; 
   }
 }

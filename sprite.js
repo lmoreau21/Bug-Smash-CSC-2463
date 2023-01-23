@@ -3,7 +3,7 @@ class Sprite {
   constructor(animation, y, speed, isRight, death) {
     this.y = y;
     this.animation = animation;
-    this.w = 50;
+    this.w = animation[0].width;
     this.len = this.animation.length;
     this.speed = speed;
     this.index = 0;
@@ -30,7 +30,7 @@ class Sprite {
     if(!this.killBug && !gameOver){
       let index = floor(this.index) % this.len;
       tint(255, 255);
-      this.animation[index].resize(50,50);
+      // this.animation[index].resize(50,50);
       image(this.animation[index], this.x, this.y);
       
     }else if(this.killBug){
@@ -38,8 +38,8 @@ class Sprite {
         this.trans--;
       }
       tint(255, this.trans);
-      this.death[0].resize(50,50);
-      this.death[1].resize(50,50);
+      // this.death[0].resize(50,50);
+      // this.death[1].resize(50,50);
       image(this.death[0], this.x, this.y);
       image(this.death[1],this.x,this.y);
     }
@@ -63,10 +63,9 @@ class Sprite {
   }
 
   deathCheck(){
-    if(!gameOver&&((mouseX > this.x && mouseX < this.x+this.w)||(mouseX < abs(this.x) && mouseX > abs(this.x)-this.w)) && (mouseY > this.y && mouseY < this.y+50) && !this.killBug){
+    if(!gameOver&&((mouseX > this.x && mouseX < this.x+this.w)||(mouseX < abs(this.x) && mouseX > abs(this.x)-this.w)) && (mouseY > this.y && mouseY < this.y+35) && !this.killBug){
       this.killBug = true;
       score++;
-      console.log(this.x+" "+width);
     }
   }
 
