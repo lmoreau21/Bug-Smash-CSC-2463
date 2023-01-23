@@ -1,4 +1,4 @@
-
+//Sprite creation class
 class Sprite {
   constructor(animation, y, speed, isRight, death) {
     this.y = y;
@@ -17,10 +17,10 @@ class Sprite {
       this.x = -this.w;
     }else if (!this.isRight){
       this.x = -width-this.w;
-      console.log(this.x+" "+width);
     }
   }
 
+  //displays the bug
   show() {
     if(!this.isRight){
       scale(-1, 1);
@@ -34,6 +34,7 @@ class Sprite {
       image(this.animation[index], this.x, this.y);
       
     }else if(this.killBug){
+      //displays the death picture and causes transparecy effect 
       if(this.trans >= 0){
         this.trans--;
       }
@@ -45,6 +46,7 @@ class Sprite {
     }
   }
 
+  //adds to the x value of the bug
   walk() {
     if(!this.isRight){
       scale(-1, 1);
@@ -62,6 +64,7 @@ class Sprite {
     }
   }
 
+  //will make the bug unclickable and update the score
   deathCheck(){
     if(!gameOver&&((mouseX > this.x && mouseX < this.x+this.w)||(mouseX < abs(this.x) && mouseX > abs(this.x)-this.w)) && (mouseY > this.y && mouseY < this.y+35) && !this.killBug){
       this.killBug = true;
