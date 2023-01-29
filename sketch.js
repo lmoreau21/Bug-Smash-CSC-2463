@@ -29,7 +29,7 @@ function preload() {
 
 //converts images to animation
 function setup() {
-  createCanvas(1600, 800);
+  createCanvas(windowWidth-20, windowHeight-20);
   for (let i = 0; i < 11; i++) {
       let img = spritesheet.get(34*i, 0,34, 31);
       animation.push(img);
@@ -96,9 +96,11 @@ function draw() {
 
 //adds to total for mouse is clicked to modify accuracy score
 function mouseClicked() {
-  totalClicks++;
-  for (let bug of bugs) {
-    bug.deathCheck();
+  if(!gameOver){
+    totalClicks++;
+    for (let bug of bugs) {
+      bug.deathCheck();
+    }
   }
 }
 
