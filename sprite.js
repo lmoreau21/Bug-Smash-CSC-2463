@@ -69,6 +69,7 @@ class Sprite {
     if(!gameOver&&((mouseX > this.x && mouseX < this.x+this.w)||(mouseX < abs(this.x) && mouseX > abs(this.x)-this.w)) && (mouseY > this.y && mouseY < this.y+35) && !this.killBug){
       this.killBug = true;
       score++;
+      bugSeq.start(); 
     }
   }
 
