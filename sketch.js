@@ -1,3 +1,4 @@
+let r=200,g=200,b=200;
 //images
 let spritesheet;
 let spritedata;
@@ -140,6 +141,7 @@ function preload() {
 function setup() {
 
   createCanvas(windowWidth-20, windowHeight-30);
+  background("gray")
   for (let i = 0; i < 11; i++) {
       let img = spritesheet.get(34*i, 0,34, 31);
       animation.push(img);
@@ -147,18 +149,21 @@ function setup() {
   death.push(spritesheet.get(34*11, 0,34, 31));
   death.push(spritesheet.get(34*12, 0,34, 31));
 }
-
+//setInterval(changeBackgroundColor, 1000);
 function draw() {
+  background(r, g, b);
   if(!gameOver){
-    background(200)
+    fill("white")
+    rect(0, 0, width, 45);
+    fill("black")
     if (timer == 0) {
       gameOver=true;
       gamesPlayed++;
       gameOverSound.start();
     }
     textSize(24);
-    text('Score: '+score, width-textWidth('Score: '+score)-10, 20);
-    text('Time: '+timer, 10, 20);
+    text('Score: '+score, width-textWidth('Score: '+score)-10, 30);
+    text('Time: '+timer, 10, 30);
     
     for (let bug of bugs) {
       bug.show();
@@ -167,14 +172,13 @@ function draw() {
     }
     if (round((millis()-gameDelay)/1000) == 31-timer && timer>0) {
       timer--;
-      bugs[bugCount] = new Sprite(animation, random(20, height-33), random(.2, .6)+score*0.08, random()<.5, death);
+      bugs[bugCount] = new Sprite(animation, random(55, height-55), random(.2, .6)+score*0.08, random()<.5, death);
       bugCount++;
       synth.envelope.attack -= .01;
+      changeBackgroundColor();
     }
   }else{
-    
-    //displays restart screen
-    background(200)
+    background("lightgray");
     //resets variables
     gameDelay = millis();
     timer = 30;
@@ -228,4 +232,10 @@ function keyPressed(){
     score = 0;
     totalClicks = 0; 
   }
+}
+
+function changeBackgroundColor() {
+  r = random(100)+50;
+  g = random(100)+50;
+  b = random(100)+50;
 }
