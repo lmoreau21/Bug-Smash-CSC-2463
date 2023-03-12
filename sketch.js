@@ -151,6 +151,8 @@ function setup() {
 }
 //setInterval(changeBackgroundColor, 1000);
 function draw() {
+  
+  textFont('cursive');
   background(r, g, b);
   if(!gameOver){
     fill("white")
@@ -178,7 +180,11 @@ function draw() {
       changeBackgroundColor();
     }
   }else{
-    background("lightgray");
+   
+    fill("lightgray")
+    rect(width/8, height/4, width*3/4, height/2);
+    fill("black")
+    textAlign("center")
     //resets variables
     gameDelay = millis();
     timer = 30;
@@ -191,26 +197,27 @@ function draw() {
     fill("red")
     if(score>=highScore && gamesPlayed != 0){
       highScore = score;
-      text("New High Score!", width/8, height/2);
+      text("New High Score!", width/3, height/2);
     }
     if(int(score/totalClicks*100)>=highAccuracy && gamesPlayed!=0){
       highAccuracy = int(score/totalClicks*100);
-      text("New Highest Accuracy!",width/8, height/2+40)
+      text("New Highest Accuracy!",width*2/3, height/2)
     }
-
+  
     //displays gameover if a round just finished
     fill("black")
     if(gamesPlayed!=0){
       textSize(50);
-      text("Game Over", width/2-textWidth("Game Over")/2, 60)
+      text("Game Over", width/2, 60)
     }
 
     //Adds score information
     textSize(40);
-    text("Press a key to start", width/2 - textWidth("Press a key to start")/2, height/3);
+    text("Press a key to start", width/2, height/3+50);
     textSize(30);
-    text("Score: "+ score+"\tHighest Score: "+highScore, width/2 - textWidth("Score: 98\tHighest Score: 90")/2, height/2);
-    text("Accuracy: "+ int((score/totalClicks)*100)+"%"+"\tHighest Accuracy: "+highAccuracy+"%", width/2 - textWidth("Accuracy: 98%\tHighest Accuracy: 98%")/2, height/2+40);
+    text("Score: "+ score+"\tHighest Score: "+highScore, width/2, height/2+50);
+    text("Accuracy: "+ int((score/totalClicks)*100)+"%"+"\tHighest Accuracy: "+highAccuracy+"%", width/2, height/2+100);
+    textAlign("left")
   }
 }
 
@@ -222,7 +229,7 @@ function mouseClicked() {
       bug.deathCheck();
     }
   }
-  
+  changeBackgroundColor();
 }
 
 //if key is pressed a round is started
@@ -232,10 +239,11 @@ function keyPressed(){
     score = 0;
     totalClicks = 0; 
   }
+  changeBackgroundColor();
 }
 
 function changeBackgroundColor() {
-  r = random(100)+50;
-  g = random(100)+50;
-  b = random(100)+50;
+  r = random(150)+50;
+  g = random(150)+50;
+  b = random(150)+50;
 }
