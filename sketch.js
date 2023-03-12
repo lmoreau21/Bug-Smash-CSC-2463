@@ -155,7 +155,9 @@ function setup() {
 
 //setInterval(changeBackgroundColor, 1000);
 function draw() {
-  
+  if (Tone.context.state !== 'running') {
+    Tone.context.resume();
+  }
   textFont('cursive');
   background(r, g, b);
   if(!gameOver){
