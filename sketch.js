@@ -87,7 +87,7 @@ const playNotes = () => {
   let index = 0;
   curSound = titleScreenNotes;
   Tone.Transport.scheduleRepeat((time) => {
-    if(gameOver) curSound = titleScreenNotes;
+    if(gameOver) { curSound = titleScreenNotes; }
     else curSound = notes;
     let note = curSound[index];
     synth.triggerAttackRelease(note, durationS, time);
@@ -95,7 +95,6 @@ const playNotes = () => {
   },durationS);
 }
 
-playNotes();
 
 // set the tempo and start the transport
 
@@ -133,8 +132,9 @@ function preload() {
   }).chain(distortion, reverb);
   spritesheet = loadImage('bug.png');
 
-
   
+  playNotes();
+  Tone.Transport.start();
 }
 
 //converts images to animation
@@ -149,6 +149,8 @@ function setup() {
   death.push(spritesheet.get(34*11, 0,34, 31));
   death.push(spritesheet.get(34*12, 0,34, 31));
 }
+
+
 //setInterval(changeBackgroundColor, 1000);
 function draw() {
   
@@ -228,8 +230,7 @@ function mouseClicked() {
     for (let bug of bugs) {
       bug.deathCheck();
     }
-  }
-  changeBackgroundColor();
+  }else changeBackgroundColor();
 }
 
 //if key is pressed a round is started
@@ -239,11 +240,10 @@ function keyPressed(){
     score = 0;
     totalClicks = 0; 
   }
-  changeBackgroundColor();
 }
 
 function changeBackgroundColor() {
-  r = random(150)+50;
-  g = random(150)+50;
-  b = random(150)+50;
+  r = random(150)+100;
+  g = random(150)+100;
+  b = random(150)+100;
 }
