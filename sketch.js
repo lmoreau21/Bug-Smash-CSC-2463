@@ -150,6 +150,9 @@ function setup() {
   }
   death.push(spritesheet.get(34*11, 0,34, 31));
   death.push(spritesheet.get(34*12, 0,34, 31));
+
+  Tone.start(); 
+  playNotes();
 }
 
 
