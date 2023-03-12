@@ -238,6 +238,8 @@ function mouseClicked() {
       bug.deathCheck();
     }
   }else changeBackgroundColor();
+  Tone.Transport.start();
+  Tone.start(); 
 }
 
 //if key is pressed a round is started
@@ -247,6 +249,8 @@ function keyPressed(){
     score = 0;
     totalClicks = 0; 
   }
+  Tone.Transport.start();
+  Tone.start(); 
 }
 
 function changeBackgroundColor() {
