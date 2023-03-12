@@ -133,8 +133,10 @@ function preload() {
   spritesheet = loadImage('bug.png');
 
   
-  playNotes();
+  
   Tone.Transport.start();
+  Tone.start(); 
+  playNotes();
 }
 
 //converts images to animation
