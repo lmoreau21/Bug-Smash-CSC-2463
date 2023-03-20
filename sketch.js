@@ -7,7 +7,7 @@ let death = [];
 let bugs = [];
 
 //timers and counters
-let timer = 30;
+let timer = 10;
 let nextChange = timer;
 let gameDelay = 0;
 
@@ -52,7 +52,9 @@ const titleScreenNotes = [
   "Bb2", "D3", "F3", "Bb3", "D4", "F4", "Bb4", "D5", "F5",
   "Bb2", "Db3", "F3", "Bb3", "Db4", "F4", "Bb4", "Db5", "F5"
 ];
-const gameOverNotes = ["A#2", "G#2", "F#2", "A#3", "G#3", "F#3", "A#4", "G#4", "F#4"];
+
+let gameOverSound = new Tone.Player("level.mp3").toDestination();
+gameOverSound.volume.value = 13;
 const distortion = new Tone.Distortion(0.8).toDestination();
 const reverb = new Tone.Reverb(1.5).toDestination();
 
@@ -71,15 +73,6 @@ let bugSeq =  new Tone.Sequence((time, note) => {
 }, bugSound, ".1");
 
 
-let index2 = 0;
-let gameOverSound =  new Tone.Sequence((time, note) => {
-  index2++;
-  gamesynth.triggerAttackRelease(note, ".2", time);
-  if(index2>=gameOverNotes.length){
-    index2=0;
-    gameOverSound.stop();
-  }
-}, gameOverNotes, ".25");
 
 const playNotes = () => {
   // schedule the notes to be played
@@ -112,22 +105,19 @@ function preload() {
       release: 14
     }
   }).toDestination();
+  synth.volume.value=-3;
 
-  synth2 = new Tone.Synth({
-    oscillator:{
-      type:'sine'
-    }
-  }).toDestination();
+
 
   gamesynth = new Tone.Synth({
     oscillator: {
-      type: "triangle"
+      type: "sine"
     },
     envelope: {
-      attack: 0.2,
-      decay: 1.5,
-      sustain: 0.1,
-      release: 3
+      attack: .9,
+		decay: .9,
+		sustain: 0.5,
+		release: 0.3,
     }
   }).chain(distortion, reverb);
   spritesheet = loadImage('bug.png');
@@ -160,6 +150,7 @@ function setup() {
 function draw() {
   if (Tone.context.state !== 'running') {
     Tone.context.resume();
+    
   }
   textFont('cursive');
   background(r, g, b);
@@ -181,7 +172,7 @@ function draw() {
       bug.walk();
       
     }
-    if (round((millis()-gameDelay)/1000) == 31-timer && timer>0) {
+    if (round((millis()-gameDelay)/1000) == 10-timer && timer>0) {
       timer--;
       bugs[bugCount] = new Sprite(animation, random(55, height-55), random(.2, .6)+score*0.08, random()<.5, death);
       bugCount++;
@@ -196,7 +187,7 @@ function draw() {
     textAlign("center")
     //resets variables
     gameDelay = millis();
-    timer = 30;
+    timer = 10;
     bugs = [];
     bugCount = 0;
     textSize(20);
