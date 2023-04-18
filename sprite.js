@@ -1,3 +1,5 @@
+//https://youtu.be/ZAcpYT4nm6E
+
 //Sprite creation class
 class Sprite {
   constructor(animation, y, speed, isRight, death) {
@@ -65,11 +67,14 @@ class Sprite {
   }
 
   //will make the bug unclickable and update the score
-  deathCheck(){
-    if(!gameOver&&((mouseX > this.x && mouseX < this.x+this.w)||(mouseX < abs(this.x) && mouseX > abs(this.x)-this.w)) && (mouseY > this.y && mouseY < this.y+35) && !this.killBug){
+  deathCheck(xValue,yValue){
+    if(!gameOver&&((xValue > this.x && xValue < this.x+this.w)||(xValue < abs(this.x) && xValue > abs(this.x)-this.w)) && (yValue > this.y && yValue < this.y+35) && !this.killBug){
       this.killBug = true;
       score++;
       bugSeq.start(); 
+      redC = 0;
+      blueC = 255;
+      greenC = 255;
     }
   }
 
